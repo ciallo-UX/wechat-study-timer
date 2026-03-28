@@ -1,0 +1,30 @@
+<!-- 今日统计 -->
+<view class="card">
+  <view>📊 今日统计</view>
+  <view>总时长：{{todayTime}}</view>
+  <view>完成次数：{{todayCount}}</view>
+</view>
+
+<!-- 添加任务 -->
+<view class="card">
+  <input placeholder="科目名称" bindinput="setName" value="{{name}}" />
+  <input placeholder="学分" bindinput="setCredit" value="{{credit}}" />
+  <view class="btn add-btn" bindtap="addTask">添加科目</view>
+</view>
+
+<!-- 任务列表 -->
+<view wx:for="{{list}}" wx:key="id" class="card task-card">
+  <view class="task-title">{{item.name}}（学分：{{item.credit}}）</view>
+  <view class="task-text">总时长：{{item.totalStr}}</view>
+  <view class="count-down">剩余：{{item.leftStr}}</view>
+  <view class="task-text">已完成：{{item.done}}次</view>
+  
+  <!-- 美化按钮组 + 删除按钮 -->
+  <view class="btn-group">
+    <view class="btn-start {{app.globalData.runningId == item.id ? 'running' : ''}}" bindtap="start" data-id="{{item.id}}">
+      {{app.globalData.runningId == item.id ? "运行中" : "开始"}}
+    </view>
+    <view class="btn-stop" bindtap="stop" data-id="{{item.id}}">暂停</view>
+    <view class="btn-del" bindtap="deleteTask" data-id="{{item.id}}">删除</view>
+  </view>
+</view>

@@ -1,0 +1,114 @@
+/* 全局卡片样式 */
+.card {
+  background: #ffffff;
+  border-radius: 24rpx;
+  padding: 30rpx;
+  margin: 20rpx;
+  box-shadow: 0 8rpx 24rpx rgba(167, 139, 250, 0.12);
+}
+
+/* 输入框样式 */
+input {
+  border: 2rpx solid #f0e6ff;
+  padding: 24rpx;
+  margin: 12rpx 0;
+  border-radius: 16rpx;
+  font-size: 28rpx;
+  background: #fdfbff;
+}
+
+/* 任务标题 */
+.task-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #7c3aed;
+  margin-bottom: 16rpx;
+}
+
+/* 任务文字 */
+.task-text {
+  font-size: 26rpx;
+  color: #666;
+  margin: 8rpx 0;
+}
+
+/* 倒计时样式 */
+.count-down {
+  font-size: 44rpx;
+  font-weight: bold;
+  color: #7c3aed;
+  margin: 20rpx 0;
+}
+
+/* 添加按钮 */
+.add-btn {
+  background: linear-gradient(135deg, #a855f7, #7c3aed);
+  color: #fff;
+  border: none;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  font-size: 28rpx;
+  font-weight: bold;
+  margin-top: 16rpx;
+}
+
+/* 按钮组布局 */
+.btn-group {
+  display: flex;
+  gap: 12rpx;
+  margin-top: 24rpx;
+}
+
+/* 开始按钮 */
+.btn-start {
+  flex: 1.2;
+  background: linear-gradient(135deg, #4ade80, #22c55e);
+  color: white;
+  text-align: center;
+  padding: 24rpx;
+  border-radius: 20rpx;
+  font-size: 28rpx;
+  font-weight: bold;
+  box-shadow: 0 4rpx 16rpx rgba(34, 197, 94, 0.2);
+  transition: all 0.3s ease;
+}
+
+/* 运行中状态 */
+.btn-start.running {
+  background: linear-gradient(135deg, #f59e0b, #eab308);
+  box-shadow: 0 4rpx 16rpx rgba(245, 158, 11, 0.3);
+}
+
+/* 结束按钮 */
+.btn-stop {
+  flex: 1;
+  background: linear-gradient(135deg, #f87171, #ef4444);
+  color: white;
+  text-align: center;
+  padding: 24rpx;
+  border-radius: 20rpx;
+  font-size: 28rpx;
+  font-weight: bold;
+  box-shadow: 0 4rpx 16rpx rgba(239, 68, 68, 0.2);
+  transition: all 0.3s ease;
+}
+
+/* 删除按钮（新增） */
+.btn-del {
+  flex: 0.8;
+  background: linear-gradient(135deg, #9ca3af, #6b7280);
+  color: white;
+  text-align: center;
+  padding: 24rpx;
+  border-radius: 20rpx;
+  font-size: 26rpx;
+  font-weight: bold;
+  box-shadow: 0 4rpx 16rpx rgba(107, 114, 120, 0.2);
+  transition: all 0.3s ease;
+}
+
+/* 按钮点击效果 */
+.btn-start:active, .btn-stop:active, .btn-del:active {
+  transform: scale(0.96);
+  opacity: 0.9;
+}

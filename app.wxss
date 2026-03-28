@@ -1,0 +1,5 @@
+page {background: #fdf4ff;}
+.card {background: #fff;border-radius: 20rpx;padding: 30rpx;margin: 20rpx;}
+.btn {background: #a78bfa;color: #fff;border-radius: 16rpx;padding: 20rpx;text-align: center;margin: 16rpx 0;}
+.btn-green {background: #4ade80;}
+.btn-red {background: #f87171;}

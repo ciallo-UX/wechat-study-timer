@@ -1,0 +1,14 @@
+{
+  "pages": [
+    "pages/home/home"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#a78bfa",
+    "navigationBarTitleText": "学习计时器",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#fdf4ff"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}
