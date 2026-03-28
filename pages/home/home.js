@@ -1,5 +1,6 @@
 const app = getApp();
 Page({
+
   data: {
     name: "",
     credit: "",
@@ -23,10 +24,9 @@ Page({
 
   getList() {
     let list = wx.getStorageSync('tasks') || [];
-    // 兼容旧数据，给没有totalLearned的任务补上默认值
     list = list.map(item => ({
       ...item,
-      totalLearned: item.totalLearned || 0, // 累计学习秒数（永久保存）
+      totalLearned: item.totalLearned || 0,
       totalStr: this.fmt(item.totalSeconds),
       leftStr: this.fmt(item.left)
     }));
@@ -61,37 +61,57 @@ Page({
       totalSeconds: total,
       left: total,
       done: 0,
-      totalLearned: 0 // 新增：累计学习秒数
+      totalLearned: 0
     };
     let list = [...this.data.list, task];
     this.saveList(list);
     this.setData({ name: "", credit: "" });
   },
 
+  // ========== 修复：精准系统时间计时，每秒+1，后台不掉 ==========
   start(e) {
     let id = e.currentTarget.dataset.id;
     let list = this.data.list;
     let task = list.find(i => i.id == id);
 
+    // 清空已有计时器
     if (app.globalData.timer) clearInterval(app.globalData.timer);
     app.globalData.runningId = id;
 
+    // 记录上一次的时间戳（核心）
+    let lastTime = Date.now();
+
     app.globalData.timer = setInterval(() => {
-      if (task.left <= 0) {
-        clearInterval(app.globalData.timer);
-        app.globalData.timer = null;
-        app.globalData.runningId = null;
-        task.done += 1;
-        task.left = task.totalSeconds;
+      // 获取当前时间
+      const now = Date.now();
+      // 计算时间差（秒）
+      const delta = Math.floor((now - lastTime) / 1000);
+      
+      // 只有大于0秒才更新（避免重复执行）
+      if(delta > 0){
+        // 剩余时间递减
+        task.left -= delta;
+        // 总时长只加 流逝的秒数（每秒+1，精准！）
+        task.totalLearned += delta;
+        // 刷新时间
+        lastTime = now;
+
+        // 计时完成逻辑
+        if (task.left <= 0) {
+          clearInterval(app.globalData.timer);
+          app.globalData.timer = null;
+          app.globalData.runningId = null;
+          task.done += 1;
+          task.left = task.totalSeconds;
+          this.saveList(list);
+          return;
+        }
         this.saveList(list);
-        return;
       }
-      task.left -= 1;
-      task.totalLearned += 1; // 每秒学习时间永久累计
-      this.saveList(list);
-    }, 1000);
+    }, 200); // 高频检查，不影响性能
   },
 
+  // 暂停功能
   stop(e) {
     let id = e.currentTarget.dataset.id;
     if (app.globalData.runningId != id) return;
@@ -100,6 +120,7 @@ Page({
     app.globalData.runningId = null;
   },
 
+  // 删除任务
   deleteTask(e) {
     let id = e.currentTarget.dataset.id;
     let list = this.data.list;
@@ -115,11 +136,9 @@ Page({
     wx.showToast({ title: '删除成功', icon: 'success' });
   },
 
-  // 核心修改：总时长改为「累计学习秒数之和」
   updateTotal() {
     let list = this.data.list;
     let count = list.reduce((sum, i) => sum + i.done, 0);
-    // 总时长 = 所有任务累计学习秒数相加（不会清零）
     let time = list.reduce((sum, i) => sum + i.totalLearned, 0);
     this.setData({
       todayCount: count,
